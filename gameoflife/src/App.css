@@ -20,11 +20,16 @@
 
 .box {
   display: inline-block;       
-  border: 1px solid black;
+  border: .5px solid black;
   width: 15px;
   height: 15px;
-  margin-left: -1px;
-  margin-bottom: -1px;
+  /* margin-left: -1px;
+  margin-bottom: -1px; */
+}
+
+.box:hover { 
+  background: #00CCFF;
+  cursor: pointer;
 }
 
 .board {
@@ -71,6 +76,15 @@ transition: all 0.6s;
 button:hover {
   border-color: #FFFFFF;
   background-color: #1c55c7;
+  cursor: pointer;
+}
+
+.off {
+  background-color: rgb(212, 127, 127);
+}
+
+.on {
+  background-color: rgb(0, 119, 128);
 }
 
 .App-link {
