@@ -1,7 +1,7 @@
 import React from 'react';
 import Game from './components/Game';
 import About from './components/About';
-import logo from './logo.svg';
+import spinner from './game_of_life.jpg';
 import './App.css';
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Conway's Game of Life</h1>
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        <img src={spinner} className="App-logo" alt="logo" />
         <Game />
         <About />
       </header>

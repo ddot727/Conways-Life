@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import Board from './Board';
+// import Slider from './Slider';
 import '../App.css';
 
 class Game extends Component {
   constructor() {
     super();
-    this.speed = 100;
+    this.seed = this.seed.bind(this);
+    this.clear = this.clear.bind(this);
     this.rows = 30;
     this.cols = 30;
     this.state = {
+      speed: 100,
       generation: 0,
       boardFull: Array(this.rows).fill().map(() => Array(this.cols).fill(false))
     };
   }
 
   selectBox = (row, col) => {
-    let boardCopy = arrayClone(this.state.boardFull);
+    const boardCopy = arrayClone(this.state.boardFull);
     boardCopy[row][col] = !boardCopy[row][col];
     this.setState({
       boardFull: boardCopy
@@ -23,17 +26,10 @@ class Game extends Component {
   }
 
   seed = () => {
-    let boardCopy = arrayClone(this.state.boardFull);
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.cols; j++) {
-        if (Math.floor(Math.random() * 4) === 1) {
-          boardCopy[i][j] = true;
-        }
-      }
-    }
-    this.setState({
-      boardFull: boardCopy
-    });
+    const boardFull = this.state.boardFull.map(rowArr =>
+      rowArr.map(() => Math.floor(Math.random() * 4) === 1)
+    );
+    this.setState(() => ({ boardFull }));
   }
 
   playButton = () => {
@@ -46,8 +42,8 @@ class Game extends Component {
   }
 
   play = () => {
-    let g = this.state.boardFull;
-    let g2 = arrayClone(this.state.boardFull);
+    const g = this.state.boardFull;
+    const g2 = arrayClone(this.state.boardFull);
 
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
@@ -68,11 +64,39 @@ class Game extends Component {
       boardFull: g2,
       generation: this.state.generation + 1
     });
-
   }
 
-  stop = () => {
-    var board = Array(this.rows).fill().map(() => Array(this.cols).fill(false));
+  handleSelectValue = event => {
+    this.speed = event.target.value
+  };
+
+  // handleSpeedChange = e => {
+  //   this.setState({ speed: e.target.value });
+  // }
+
+  handleChange = (e) => {
+    this.setState({
+      speed: e.target.value
+    })
+  }
+
+  slow = () => {
+    this.speed = 1000;
+    this.playButton();
+  }
+
+  medium = () => {
+    this.speed = 500;
+    this.playButton();
+  }
+
+  fast = () => {
+    this.speed = 100;
+    this.playButton();
+  }
+
+  clear = () => {
+    const board = Array(this.rows).fill().map(() => Array(this.cols).fill(false));
     this.setState({
       boardFull: board,
       generation: 0
@@ -96,7 +120,11 @@ class Game extends Component {
         <div className="buttonGroup">
           <button onClick={this.playButton}>Play</button>
           <button onClick={this.pauseButton}>Pause</button>
-          <button onClick={this.stop}>Stop</button>
+          <button onClick={this.clear}>Clear</button>
+          <button onClick={this.seed}>Random</button>
+          <button onClick={this.slow}>Slow</button>
+          <button onClick={this.medium}>Medium</button>
+          <button onClick={this.fast}>Fast</button>
         </div>
       </div>
     );
